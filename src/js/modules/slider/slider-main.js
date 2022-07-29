@@ -35,17 +35,6 @@ export default class MainSlider extends Slider {
 
         this.slides[this.slideIndex - 1].style.display = "block";
         this.slides[this.slideIndex - 1].classList.add('animated', 'fadeIn');
-
-        //мой вариант
-        // if (n === 3) {
-        //     let windowHanson = this.slides[2].querySelector('.hanson');
-        //     windowHanson.style.display = "none";
-        //     windowHanson.classList.remove('animated');
-        //     setTimeout(() => {
-        //         windowHanson.style.display = 'block';
-        //         windowHanson.classList.add('animated', 'fadeIn');
-        //     }, 3000);
-        // }
     }
 
     plusSlides(n) {
