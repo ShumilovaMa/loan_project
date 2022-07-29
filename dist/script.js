@@ -2763,6 +2763,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider_slider_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider/slider-main */ "./src/js/modules/slider/slider-main.js");
 /* harmony import */ var _modules_slider_slider_mini__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/slider/slider-mini */ "./src/js/modules/slider/slider-mini.js");
 /* harmony import */ var _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/playVideo */ "./src/js/modules/playVideo.js");
+/* harmony import */ var _modules_difference__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/difference */ "./src/js/modules/difference.js");
+
 
 
 
@@ -2798,7 +2800,85 @@ window.addEventListener("DOMContentLoaded", function () {
   feedSlider.init();
   var player = new _modules_playVideo__WEBPACK_IMPORTED_MODULE_2__["default"]('.showup .play', '.overlay');
   player.init();
+  var oldDifference = new _modules_difference__WEBPACK_IMPORTED_MODULE_3__["default"]('.officerold', '.officer__card-item');
+  oldDifference.init();
+  var newDifference = new _modules_difference__WEBPACK_IMPORTED_MODULE_3__["default"]('.officernew', '.officer__card-item');
+  newDifference.init();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/difference.js":
+/*!**************************************!*\
+  !*** ./src/js/modules/difference.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Difference; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Difference =
+/*#__PURE__*/
+function () {
+  function Difference(officer, items) {
+    _classCallCheck(this, Difference);
+
+    this.officer = document.querySelector(officer);
+    this.items = this.officer.querySelectorAll(items);
+    this.counter = 0;
+  }
+
+  _createClass(Difference, [{
+    key: "bindTriggers",
+    value: function bindTriggers(container, items, counter) {
+      container.querySelector('.plus').addEventListener('click', function () {
+        items[counter].style.display = 'flex'; //показываем карточку
+
+        items[counter].classList.add('fadeIn');
+
+        if (counter !== items.length - 2) {
+          counter++;
+        } else {
+          //если мы дошли до последней карточки, которую нужно показать, то:
+          items[items.length - 1].remove(); //удаляем последний блок 
+        }
+      });
+    }
+  }, {
+    key: "hideItems",
+    value: function hideItems(items) {
+      items.forEach(function (item, i, arr) {
+        if (i !== arr.length - 1) {
+          //проверяем, что элемент массива(его номер п/п) не последний в коллекции
+          item.style.display = 'none'; //скрываем все элементы, кроме последнего
+
+          item.classList.add('animated');
+        }
+      });
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      this.hideItems(this.items);
+      this.bindTriggers(this.officer, this.items, this.counter);
+    }
+  }]);
+
+  return Difference;
+}();
+
+
 
 /***/ }),
 
@@ -3107,12 +3187,12 @@ var MiniSlider =
 function (_Slider) {
   _inherits(MiniSlider, _Slider);
 
-  function MiniSlider(container, prev, next, activeClass, animate, autoplay, paused) {
+  function MiniSlider(container, prev, next, animate, activeClass, autoplay) {
     var _this;
 
     _classCallCheck(this, MiniSlider);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MiniSlider).call(this, container, prev, next, activeClass, animate, autoplay, paused));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MiniSlider).call(this, container, prev, next, animate, activeClass, autoplay));
     _this.paused = false;
     return _this;
   }
@@ -3126,8 +3206,8 @@ function (_Slider) {
         slide.classList.remove(_this2.activeClass);
 
         if (_this2.animate) {
-          slide.querySelector('.card__title').style.opacity = 0.4;
-          slide.querySelector('.card__controls-arrow').style.opacity = 0;
+          slide.querySelector('.card__title').style.opacity = '0.4';
+          slide.querySelector('.card__controls-arrow').style.opacity = '0';
         }
       });
 
@@ -3136,8 +3216,8 @@ function (_Slider) {
       }
 
       if (this.animate) {
-        this.slides[0].querySelector('.card__title').style.opacity = 1;
-        this.slides[0].querySelector('.card__controls-arrow').style.opacity = 1;
+        this.slides[0].querySelector('.card__title').style.opacity = '1';
+        this.slides[0].querySelector('.card__controls-arrow').style.opacity = '1';
       }
     }
   }, {
